@@ -10,7 +10,9 @@ defmodule KV.Supervisor do
   @impl true
   def init(:ok) do
     children = [
-      {KV.Registry, name: KV.Registry}
+      {KV.Registry, name: KV.Registry},
+      # Can use DynamicSupervisor functions to terminate children
+      {DynamicSupervisor, name: KV.BucketSupervisor, strategy: :one_for_one}
     ]
 
     # Invokes child_spec/1 on each child (automatically created on `use Agent`, `use Registry` or `use Supervisor`)
