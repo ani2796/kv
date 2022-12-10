@@ -17,7 +17,7 @@ defmodule KV.MixProject do
       extra_applications: [:logger],
       # `mod` specifies the application's callback module and args
       # Requires that module implements application behaviour
-      mod: {KV, []}
+      mod: {KV, count: 10}
     ]
   end
 
