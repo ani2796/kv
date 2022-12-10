@@ -46,7 +46,7 @@ defmodule KV.Registry do
       # DANGEROUS to link registry to buckets like this
       # Crashed bucket will cause registry to crash
       # SOLUTION: Use dynamic supervisors, specifying action on failure
-      {:ok, bucket} = KV.Bucket.start_link([])
+      {:ok, bucket} = DynamicSupervisor.start_child(KV.BucketSupervisor, KV.Bucket)
       ref = Process.monitor(bucket)
       refs = Map.put(refs, ref, name)
       names = Map.put(names, name, bucket)

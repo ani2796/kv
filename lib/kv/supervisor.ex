@@ -17,6 +17,9 @@ defmodule KV.Supervisor do
 
     # Invokes child_spec/1 on each child (automatically created on `use Agent`, `use Registry` or `use Supervisor`)
     # name passed to opts of KV.Registry.start_link
-    Supervisor.init(children, strategy: :one_for_one)
+    # `one_for_all` strategy means if any child terminates, all are restarted
+    # `one_for_one` strategy means if one child terminates, it is solely restarted
+    # `rest_for_one` strategy means if one child terminates, all children spawned after it will restart
+    Supervisor.init(children, strategy: :one_for_all)
   end
 end
