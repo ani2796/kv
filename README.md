@@ -1,6 +1,14 @@
 # KV
 
-**TODO: Add description**
+Implementing a distributed key-value store similar to Dynamo
+
+## Project Structure
+
+Currently, the application consists of simple key-value buckets which are tracked by a
+registry.
+
+TODO: Use supervisor to handle registry failures
+TODO: Use dynamic supervisor to manage buckets
 
 ## Installation
 
