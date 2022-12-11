@@ -1,13 +1,7 @@
+## UNUSED MODULE, IGNORE
+
 defmodule KV.Registry do
   use GenServer
-
-  # initialize
-  @impl true
-  def init(:ok) do
-    names = %{}
-    refs = %{}
-    {:ok, {names, refs}}
-  end
 
   # CLIENT FNS
 
@@ -28,6 +22,14 @@ defmodule KV.Registry do
 
   # SERVER FNS
 
+  # initialize
+  @impl true
+  def init(:ok) do
+    names = %{}
+    refs = %{}
+    {:ok, {names, refs}}
+  end
+
   # Calls are synchronous, client waits for return result
   # Lookup bucket `name` in registry
   @impl true
@@ -46,6 +48,7 @@ defmodule KV.Registry do
       # DANGEROUS to link registry to buckets like this
       # Crashed bucket will cause registry to crash
       # SOLUTION: Use dynamic supervisors, specifying action on failure
+      # TODO: Hash each created bucket to its spot on the hash ring
       {:ok, bucket} = DynamicSupervisor.start_child(KV.BucketSupervisor, KV.Bucket)
       ref = Process.monitor(bucket)
       refs = Map.put(refs, ref, name)

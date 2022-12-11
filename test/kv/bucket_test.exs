@@ -7,23 +7,18 @@ defmodule KV.BucketTest do
   end
 
   test "store values by key", %{bucket: bucket} do
-    assert KV.Bucket.get(bucket, "milk") == nil
+    assert KV.Bucket.get(bucket, "milk") == :error
 
     KV.Bucket.put(bucket, "milk", 3)
-    assert KV.Bucket.get(bucket, "milk") == 3
+    assert KV.Bucket.get(bucket, "milk") == {:ok, 3}
   end
 
   test "delete values by key", %{bucket: bucket} do
-    assert KV.Bucket.delete(bucket, "milk") == nil
+    assert KV.Bucket.delete(bucket, "eggs") == nil
 
-    KV.Bucket.put(bucket, "milk", 5)
-
-    assert KV.Bucket.get(bucket, "milk") == 5
-    assert KV.Bucket.delete(bucket, "milk") == 5
-    assert KV.Bucket.delete(bucket, "milk") == nil
-  end
-
-  test "are temporary workers" do
-    assert Supervisor.child_spec(KV.Bucket, []).restart == :temporary
+    KV.Bucket.put(bucket, "eggs", 5)
+    assert KV.Bucket.get(bucket, "eggs") == {:ok, 5}
+    assert KV.Bucket.delete(bucket, "eggs") == 5
+    assert KV.Bucket.delete(bucket, "eggs") == nil
   end
 end
