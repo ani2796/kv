@@ -4,6 +4,7 @@ defmodule KV.Supervisor do
   use Supervisor
 
   @bucket_registry :bucket_registry
+  @hash_ring :hash_ring
 
   def start_link(opts) do
     Supervisor.start_link(__MODULE__, :ok, opts)
@@ -15,7 +16,8 @@ defmodule KV.Supervisor do
       # {KV.Registry, name: KV.Registry},
       # Can use DynamicSupervisor functions to terminate children
       {KV.BucketSupervisor, strategy: :one_for_one},
-      {Registry, [keys: :unique, name: @bucket_registry]}
+      {Registry, [keys: :unique, name: @bucket_registry]},
+      {KV.Ring, [name: @hash_ring]}
     ]
 
     # Invokes child_spec/1 on each child (automatically created on `use Agent`, `use Registry` or `use Supervisor`)
